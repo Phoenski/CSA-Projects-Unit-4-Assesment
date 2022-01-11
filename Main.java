@@ -5,11 +5,11 @@ class Main
     public static void main(String [] args)
     {
         //
+        String ResultString;
         SixDigFuncClass InitialSixDigString = new SixDigFuncClass("000000");
         for (int i = 0; i < 10; i++)
         {
             //
-            System.out.println(InitialSixDigString);
             InitialSixDigString.toString();
             InitialSixDigString.getLeadingZeros();
             InitialSixDigString.truncateLeadingZeros();
@@ -17,6 +17,9 @@ class Main
             InitialSixDigString.IntSixDigStringPlusPlus();
             InitialSixDigString.toString();
             InitialSixDigString.checkHighestPlaceValueChanged();
+            ResultString = InitialSixDigString.doStringPlusPlus();
+            System.out.println(ResultString);
+
         }
     }
 }
@@ -126,6 +129,27 @@ class SixDigFuncClass
         return HighestPlaceValueChanged;
     }
 
+    public String doStringPlusPlus()
+    {
+        //
+        if (HighestPlaceValueChanged == false)
+        {
+            DynamicSixDigString = LeadingZeros + DynamicSixDigString;
+        }
+
+        else if (HighestPlaceValueChanged == true)
+        {
+            LeadingZeros = LeadingZeros.substring(1);
+            DynamicSixDigString = LeadingZeros + DynamicSixDigString;
+        }
+        return DynamicSixDigString;
+    }
+
+}
+
+class StoreStringValues
+{
+    ArrayList<StringList> StringList
 }
 
 /*
