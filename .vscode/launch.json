@@ -6,9 +6,36 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch PrintSixDigStringTo999999",
+            "request": "launch",
+            "mainClass": "PrintSixDigStringTo999999",
+            "projectName": "Unit 4_49426dac"
+        },
+        {
+            "type": "java",
+            "name": "Launch ConsoleToFile",
+            "request": "launch",
+            "mainClass": "ConsoleToFile",
+            "projectName": "Unit 4_49426dac"
+        },
+        {
+            "type": "java",
             "name": "Launch Current File",
             "request": "launch",
-            "mainClass": "${file}"
+            "mainClass": "${file}",
+            "stepFilters": {
+                "classNameFilters": [
+                    "java.lang.Main",
+                    "java.lang.SixDigFuncClass"
+                ],
+                "skipClasses": [
+                    "$JDK",
+                    "junit.*"
+                ],
+                "skipSynthetics": false,
+                "skipStaticInitializers": false,
+                "skipConstructors": false
+            }
         },
         {
             "type": "java",

@@ -1,4 +1,7 @@
 import java.util.*;
+import java.io.*;
+import java.lang.*;
+//import Logger.java;
 
 class Main
 {
@@ -7,20 +10,26 @@ class Main
         //
         String ResultString;
         SixDigFuncClass InitialSixDigString = new SixDigFuncClass("000000");
-        for (int i = 0; i < 10; i++)
+        for (int i = -1; i < 999999; i++)
         {
             //
             InitialSixDigString.toString();
+            InitialSixDigString.PosOfFirstZero();
             InitialSixDigString.getLeadingZeros();
             InitialSixDigString.truncateLeadingZeros();
-            InitialSixDigString.recordStringLengthBeforeIncrease();
             InitialSixDigString.IntSixDigStringPlusPlus();
-            InitialSixDigString.toString();
-            InitialSixDigString.checkHighestPlaceValueChanged();
-            ResultString = InitialSixDigString.doStringPlusPlus();
+            InitialSixDigString.IntToString();
+            InitialSixDigString.SixDigStringPlusPlus();
+            InitialSixDigString.FinalStringLength();
+            InitialSixDigString.CheckStringLength();
+            ResultString = InitialSixDigString.FinalStringSixDigString();
             System.out.println(ResultString);
 
         }
+        /*PrintStream out = new PrintStream(
+        new FileOutputStream("output.txt", append), autoFlush);
+        System.setOut(out);*/
+
     }
 }
 
@@ -30,10 +39,12 @@ class SixDigFuncClass
     private String DynamicSixDigString;
     private String LeadingZeros;
     private int PosOfFirstZero;
-    private int IntSixDigString;
-    private int StringLengthBeforeIncrease;
-    private int StringLengthAfterIncrease;
+    private int IntSixDigString = -1;
+    private int CorrectStringFinalLength = 6;
+    private int FinalStringLength = 0;
     private boolean HighestPlaceValueChanged;
+    private int StringLengthDiference;
+
     public SixDigFuncClass(String StaticSixDigString)
     {
         //
@@ -46,7 +57,7 @@ class SixDigFuncClass
         return DynamicSixDigString;
     }
 
-    public int PosOfFirstZero(int PosOfFirstZero)
+    public int PosOfFirstZero()
     {
         PosOfFirstZero = DynamicSixDigString.indexOf("0");
         return PosOfFirstZero;
@@ -56,11 +67,11 @@ class SixDigFuncClass
     {
         if (PosOfFirstZero == 0)
         {
-            LeadingZeros = "0";
+            LeadingZeros = "00000";
         }
         else if (PosOfFirstZero == 1)
         {
-            LeadingZeros = "00";
+            LeadingZeros = "0000";
         }
         else if (PosOfFirstZero == 2)
         {
@@ -68,15 +79,15 @@ class SixDigFuncClass
         }
         else if (PosOfFirstZero == 3)
         {
-            LeadingZeros = "0000";
+            LeadingZeros = "00";
         }
         else if (PosOfFirstZero == 4)
         {
-            LeadingZeros = "00000";
+            LeadingZeros = "0";
         }
         else if (PosOfFirstZero == 5)
         {
-            LeadingZeros = "00000";
+            LeadingZeros = "0";
         }
         else
         {
@@ -88,14 +99,8 @@ class SixDigFuncClass
     public String truncateLeadingZeros()
     {
         //
-        DynamicSixDigString = DynamicSixDigString.substring(PosOfFirstZero);
+        DynamicSixDigString = DynamicSixDigString.substring(PosOfFirstZero + 1);
         return DynamicSixDigString;
-    }
-
-    public int recordStringLengthBeforeIncrease()
-    {
-        StringLengthBeforeIncrease = DynamicSixDigString.length();
-        return StringLengthBeforeIncrease;
     }
 
     public int doStringToInt()
@@ -110,47 +115,65 @@ class SixDigFuncClass
         return IntSixDigString;
     }
 
-    public int recordStringLengthAfterIncrease()
+    public String IntToString()
     {
-        StringLengthAfterIncrease =  Integer.parseInt(DynamicSixDigString);
-        return StringLengthAfterIncrease;
+        //
+        DynamicSixDigString = String.valueOf(IntSixDigString);
+        return DynamicSixDigString;
     }
 
-    public Boolean checkHighestPlaceValueChanged()
+    public String SixDigStringPlusPlus()
     {
-        if (StringLengthBeforeIncrease != StringLengthAfterIncrease)
+        DynamicSixDigString = LeadingZeros + DynamicSixDigString;
+        return DynamicSixDigString;
+    }
+
+    public int FinalStringLength()
+    {
+        FinalStringLength = DynamicSixDigString.length();
+        return FinalStringLength;
+    }
+
+    public Boolean CheckStringLength()
+    {
+        if (FinalStringLength != CorrectStringFinalLength)
         {
             HighestPlaceValueChanged = true;
         }
-        else if (StringLengthBeforeIncrease == StringLengthAfterIncrease)
+        else if (FinalStringLength == CorrectStringFinalLength)
         {
             HighestPlaceValueChanged = false;
         }
         return HighestPlaceValueChanged;
     }
 
-    public String doStringPlusPlus()
+    public String FinalStringSixDigString()
     {
         //
         if (HighestPlaceValueChanged == false)
         {
-            DynamicSixDigString = LeadingZeros + DynamicSixDigString;
+            DynamicSixDigString = DynamicSixDigString;
         }
 
         else if (HighestPlaceValueChanged == true)
         {
-            LeadingZeros = LeadingZeros.substring(1);
-            DynamicSixDigString = LeadingZeros + DynamicSixDigString;
+            StringLengthDiference = FinalStringLength - CorrectStringFinalLength;
+            DynamicSixDigString = DynamicSixDigString.substring(StringLengthDiference);
         }
         return DynamicSixDigString;
     }
 
 }
 
+/*
 class StoreStringValues
 {
     ArrayList<StringList> StringList
 }
+
+
+PrintStream out = new PrintStream(new FileOutputStream("output.txt", append), autoFlush);
+System.setOut(out);*/
 
 /*
 
