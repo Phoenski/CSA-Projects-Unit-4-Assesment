@@ -5,26 +5,43 @@ public class Main
     public static void main(String [] args) throws IOException
     {
         String ResultString;
+        int adderTemp = 0;
         SixDigFuncClass InitialSixDigString = new SixDigFuncClass("000000");
         BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt", true));
+        ZLevel adder = new ZLevel(0);
         for (int i = -1; i < 999999; i++)
         {
             InitialSixDigString.toString();
             InitialSixDigString.PosOfFirstZero();
             InitialSixDigString.getLeadingZeros();
-            InitialSixDigString.truncateLeadingZeros();
-            InitialSixDigString.IntSixDigStringPlusPlus();
-            InitialSixDigString.IntToString();
-            InitialSixDigString.SixDigStringPlusPlus();
+            InitialSixDigString.doTruncateLeadingZeros();
+            InitialSixDigString.doIntSixDigStringPlusPlus();
+            InitialSixDigString.doIntToString();
+            InitialSixDigString.doSixDigStringPlusPlus();
             InitialSixDigString.FinalStringLength();
             InitialSixDigString.CheckStringLength();
             ResultString = InitialSixDigString.FinalStringSixDigString();
-            writer.append('\n');
-            writer.append(ResultString);
+            writer.append("/* z = " + adderTemp + " */\n{\n\"" + ResultString + "\"\n},\n");
+            adder.doLevelPlusPlus();
+            adder.doZIntToStringToInt();
+            adder.CheckFor9();
+            adderTemp = adder.SetTo0();
+            if (adderTemp == 9)
+            {
+                writer.append("\n");
+            }
+            
         }
         writer.close();
     }
 }
+
+/*
+/* z = 0 *//*
+{
+    "000010"
+},
+*/
 
 class SixDigFuncClass
 {
@@ -87,7 +104,7 @@ class SixDigFuncClass
         return LeadingZeros;
     }
 
-    public String truncateLeadingZeros()
+    public String doTruncateLeadingZeros()
     {
         DynamicSixDigString = DynamicSixDigString.substring(PosOfFirstZero + 1);
         return DynamicSixDigString;
@@ -99,19 +116,19 @@ class SixDigFuncClass
         return IntSixDigString;
     }
 
-    public int IntSixDigStringPlusPlus()
+    public int doIntSixDigStringPlusPlus()
     {
         IntSixDigString++;
         return IntSixDigString;
     }
 
-    public String IntToString()
+    public String doIntToString()
     {
         DynamicSixDigString = String.valueOf(IntSixDigString);
         return DynamicSixDigString;
     }
 
-    public String SixDigStringPlusPlus()
+    public String doSixDigStringPlusPlus()
     {
         DynamicSixDigString = LeadingZeros + DynamicSixDigString;
         return DynamicSixDigString;
@@ -145,5 +162,53 @@ class SixDigFuncClass
         }
         return DynamicSixDigString;
     }
+}
 
+class ZLevel
+{
+    private int DynamicLevelInt = 0;
+    private String DynamicLevelString = null;
+    private boolean Equals9 = false;
+    public ZLevel(int Level)
+    {
+        //
+        DynamicLevelInt = Level;
+    }
+    
+    public int doLevelPlusPlus()
+    {
+        //
+        DynamicLevelInt++;
+        
+        return DynamicLevelInt;
+    }
+
+    public int doZIntToStringToInt()
+    {
+        DynamicLevelString = String.valueOf(DynamicLevelInt);
+        DynamicLevelInt = Integer.parseInt(DynamicLevelString);
+        return DynamicLevelInt;
+    }
+
+    public boolean CheckFor9()
+    {
+        if (DynamicLevelInt > 9)
+        {
+            Equals9 = true;
+        }
+        else if (DynamicLevelInt < 9)
+        {
+            Equals9 = false;
+        }
+        return Equals9;
+    }
+
+    public int SetTo0()
+    {
+        if (Equals9 == true)
+        {
+            DynamicLevelInt = 0;
+        }
+        return DynamicLevelInt;
+    }
 }
