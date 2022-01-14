@@ -1,5 +1,8 @@
 /** Array Writer 
  * By: Aidan Waeltz
+ * Expected output: 4,333,332 lines
+ * CamelCase is not used.
+ * Do not run without first clearing file "output.txt"
 */
 
 import java.io.*;
@@ -9,11 +12,16 @@ public class Main
     public static void main(String [] args) throws IOException
     {
         Printer print = new Printer();
-        print.Print();
+        print.doPrint();
+        while (CoordUpdater.FinalCoord.equals("999999"))
+        {
+            System.exit(0);
+        }
     }
 }
 
-class CoordInc
+/* Updates the value of the coordinate via converting the current value of the number of iterations completed for each for loop into a single string*/
+class CoordUpdater
 {
     private String TLevelString;
     private String VLevelString;
@@ -21,14 +29,14 @@ class CoordInc
     private String XLevelString;
     private String YLevelString;
     private String ZLevelString;
-    private String FinalCoord;
+    public static String FinalCoord;
 
-    public CoordInc()
+    public CoordUpdater()
     {
         //
     }
 
-    public String CoordUpdate(int TLevel, int VLevel, int LLevel, int XLevel, int YLevel, int ZLevel)
+    public String doCoordUpdate(int TLevel, int VLevel, int LLevel, int XLevel, int YLevel, int ZLevel)
     {
         TLevelString = String.valueOf(TLevel);
         VLevelString = String.valueOf(VLevel);
@@ -51,92 +59,99 @@ class Printer
     private int YLevel = 0;
     private int ZLevel = 0;
     private String PrintOutput;
-    public CoordInc NextString = new CoordInc();
+    public CoordUpdater NextString = new CoordUpdater();
     
     public Printer()
     {
         //
     }
 
-    public String Print() throws IOException
+    public String doPrint() throws IOException
     {
-        BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt", true));
-        writer.append("{\n");
-        for (TLevel = 0; TLevel <= 9; TLevel++)
-        {
-            writer.append("\t/* t = " + TLevel + " */\n\t{\n");
-            for (VLevel = 0; VLevel <=9; VLevel++)
+        BufferedWriter Writer = new BufferedWriter(new FileWriter("output.txt", true));
+        try
+        {  
+            Writer.append("{\n");
+            for (TLevel = 0; TLevel <= 9; TLevel++)
             {
-                writer.append("\t\t/* v = " + VLevel + " */\n\t\t{\n");
-                for (LLevel = 0; LLevel <= 9; LLevel++)
+                Writer.append("\t/* t = " + TLevel + " */\n\t{\n");
+                for (VLevel = 0; VLevel <=9; VLevel++)
                 {
-                    writer.append("\t\t\t/* l = " + LLevel + " */\n\t\t\t{\n");
-                    for (XLevel = 0; XLevel <= 9; XLevel++)
+                    Writer.append("\t\t/* v = " + VLevel + " */\n\t\t{\n");
+                    for (LLevel = 0; LLevel <= 9; LLevel++)
                     {
-                        writer.append("\t\t\t\t/* x = " + XLevel + " */\n\t\t\t\t{\n");
-                        for (YLevel = 0; YLevel <= 9; YLevel++)
+                        Writer.append("\t\t\t/* l = " + LLevel + " */\n\t\t\t{\n");
+                        for (XLevel = 0; XLevel <= 9; XLevel++)
                         {
-                            writer.append("\t\t\t\t\t/* y = " + YLevel + " */\n\t\t\t\t\t{\n");
-                            for (ZLevel = 0; ZLevel <= 9; ZLevel++)
+                            Writer.append("\t\t\t\t/* x = " + XLevel + " */\n\t\t\t\t{\n");
+                            for (YLevel = 0; YLevel <= 9; YLevel++)
                             {
-                                String CurrentString = NextString.CoordUpdate(TLevel, VLevel, LLevel, XLevel, YLevel, ZLevel);
-                                writer.append("\t\t\t\t\t\t/* z = " + ZLevel + " */ \n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"" + CurrentString + "\"\n");
-                                if (ZLevel == 9)
+                                Writer.append("\t\t\t\t\t/* y = " + YLevel + " */\n\t\t\t\t\t{\n");
+                                for (ZLevel = 0; ZLevel <= 9; ZLevel++)
                                 {
-                                    writer.append("\t\t\t\t\t\t}\n");
+                                    /* Asks for the value of CurrentString to be updated using doCoordUpdate method. */
+                                    String CurrentString = NextString.doCoordUpdate(TLevel, VLevel, LLevel, XLevel, YLevel, ZLevel);
+                                    Writer.append("\t\t\t\t\t\t/* z = " + ZLevel + " */ \n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"" + CurrentString + "\"\n");
+                                    if (ZLevel == 9)
+                                    {
+                                        Writer.append("\t\t\t\t\t\t}\n");
+                                    }
+                                    else
+                                    {
+                                        Writer.append("\t\t\t\t\t\t},\n");
+                                    }
+                                }
+                                if (YLevel == 9)
+                                {
+                                    Writer.append("\t\t\t\t\t}\n");
                                 }
                                 else
                                 {
-                                    writer.append("\t\t\t\t\t\t},\n");
+                                    Writer.append("\t\t\t\t\t},\n");
                                 }
                             }
-                            if (YLevel == 9)
+                            if (XLevel == 9)
                             {
-                                writer.append("\t\t\t\t\t}\n");
+                                Writer.append("\t\t\t\t}\n");
                             }
                             else
                             {
-                                writer.append("\t\t\t\t\t},\n");
+                                Writer.append("\t\t\t\t},\n");
                             }
                         }
-                        if (XLevel == 9)
+                        if (LLevel == 9)
                         {
-                            writer.append("\t\t\t\t}\n");
+                            Writer.append("\t\t\t}\n");
                         }
                         else
                         {
-                            writer.append("\t\t\t\t},\n");
+                            Writer.append("\t\t\t},\n");
                         }
                     }
-                    if (LLevel == 9)
+                    if (VLevel == 9)
                     {
-                        writer.append("\t\t\t}\n");
+                    Writer.append("\t\t}\n");
                     }
                     else
                     {
-                        writer.append("\t\t\t},\n");
+                        Writer.append("\t\t},\n");
                     }
                 }
-                if (VLevel == 9)
+                if (TLevel == 9)
                 {
-                writer.append("\t\t}\n");
+                    Writer.append("\t}\n");
                 }
                 else
                 {
-                    writer.append("\t\t},\n");
+                    Writer.append("\t},\n");
                 }
             }
-            if (TLevel == 9)
-            {
-                writer.append("\t}\n");
-            }
-            else
-            {
-                writer.append("\t},\n");
-            }
+        } catch (IOException ErrorReport) {
+            ErrorReport.printStackTrace();
+        } finally {
+            Writer.append("");
+            Writer.close();
         }
-        writer.append("}");
-        writer.close();
         return PrintOutput;
     }
 }
