@@ -1,214 +1,157 @@
+/** Array Writer 
+ * By: Aidan Waeltz
+ * Expected output: 4,333,332 lines
+ * CamelCase is not used.
+ * Do not run without first clearing file "output.txt"
+*/
+
 import java.io.*;
 
 public class Main
 {
     public static void main(String [] args) throws IOException
     {
-        String ResultString;
-        int adderTemp = 0;
-        SixDigFuncClass InitialSixDigString = new SixDigFuncClass("000000");
-        BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt", true));
-        ZLevel adder = new ZLevel(0);
-        for (int i = -1; i < 999999; i++)
+        Printer print = new Printer();
+        print.doPrint();
+        while (CoordUpdater.FinalCoord.equals("999999"))
         {
-            InitialSixDigString.toString();
-            InitialSixDigString.PosOfFirstZero();
-            InitialSixDigString.getLeadingZeros();
-            InitialSixDigString.doTruncateLeadingZeros();
-            InitialSixDigString.doIntSixDigStringPlusPlus();
-            InitialSixDigString.doIntToString();
-            InitialSixDigString.doSixDigStringPlusPlus();
-            InitialSixDigString.FinalStringLength();
-            InitialSixDigString.CheckStringLength();
-            ResultString = InitialSixDigString.FinalStringSixDigString();
-            writer.append("/* z = " + adderTemp + " */\n{\n\"" + ResultString + "\"\n},\n");
-            adder.doLevelPlusPlus();
-            adder.doZIntToStringToInt();
-            adder.CheckFor9();
-            adderTemp = adder.SetTo0();
-            if (adderTemp == 9)
-            {
-                writer.append("\n");
-            }
-            
+            System.exit(0);
         }
-        writer.close();
     }
 }
 
-/*
-/* z = 0 *//*
+/* Updates the value of the coordinate via converting the current value of the number of iterations completed for each for loop into a single string*/
+class CoordUpdater
 {
-    "000010"
-},
-*/
+    private String TLevelString;
+    private String VLevelString;
+    private String LLevelString;
+    private String XLevelString;
+    private String YLevelString;
+    private String ZLevelString;
+    public static String FinalCoord;
 
-class SixDigFuncClass
-{
-    private String DynamicSixDigString;
-    private String LeadingZeros;
-    private int PosOfFirstZero;
-    private int IntSixDigString = -1;
-    private int CorrectStringFinalLength = 6;
-    private int FinalStringLength = 0;
-    private boolean HighestPlaceValueChanged;
-    private int StringLengthDiference;
-
-    public SixDigFuncClass(String StaticSixDigString)
-    {
-        DynamicSixDigString = StaticSixDigString;
-    }
-
-    @Override
-    public String toString()
-    {
-        return DynamicSixDigString;
-    }
-
-    public int PosOfFirstZero()
-    {
-        PosOfFirstZero = DynamicSixDigString.indexOf("0");
-        return PosOfFirstZero;
-    }
-
-    public String getLeadingZeros()
-    {
-        if (PosOfFirstZero == 0)
-        {
-            LeadingZeros = "00000";
-        }
-        else if (PosOfFirstZero == 1)
-        {
-            LeadingZeros = "0000";
-        }
-        else if (PosOfFirstZero == 2)
-        {
-            LeadingZeros = "000"; 
-        }
-        else if (PosOfFirstZero == 3)
-        {
-            LeadingZeros = "00";
-        }
-        else if (PosOfFirstZero == 4)
-        {
-            LeadingZeros = "0";
-        }
-        else if (PosOfFirstZero == 5)
-        {
-            LeadingZeros = "0";
-        }
-        else
-        {
-            return "Error";
-        }
-        return LeadingZeros;
-    }
-
-    public String doTruncateLeadingZeros()
-    {
-        DynamicSixDigString = DynamicSixDigString.substring(PosOfFirstZero + 1);
-        return DynamicSixDigString;
-    }
-
-    public int doStringToInt()
-    {
-        IntSixDigString = Integer.parseInt(DynamicSixDigString);
-        return IntSixDigString;
-    }
-
-    public int doIntSixDigStringPlusPlus()
-    {
-        IntSixDigString++;
-        return IntSixDigString;
-    }
-
-    public String doIntToString()
-    {
-        DynamicSixDigString = String.valueOf(IntSixDigString);
-        return DynamicSixDigString;
-    }
-
-    public String doSixDigStringPlusPlus()
-    {
-        DynamicSixDigString = LeadingZeros + DynamicSixDigString;
-        return DynamicSixDigString;
-    }
-
-    public int FinalStringLength()
-    {
-        FinalStringLength = DynamicSixDigString.length();
-        return FinalStringLength;
-    }
-
-    public Boolean CheckStringLength()
-    {
-        if (FinalStringLength != CorrectStringFinalLength)
-        {
-            HighestPlaceValueChanged = true;
-        }
-        else if (FinalStringLength == CorrectStringFinalLength)
-        {
-            HighestPlaceValueChanged = false;
-        }
-        return HighestPlaceValueChanged;
-    }
-
-    public String FinalStringSixDigString()
-    {
-        if (HighestPlaceValueChanged == true)
-        {
-            StringLengthDiference = FinalStringLength - CorrectStringFinalLength;
-            DynamicSixDigString = DynamicSixDigString.substring(StringLengthDiference);
-        }
-        return DynamicSixDigString;
-    }
-}
-
-class ZLevel
-{
-    private int DynamicLevelInt = 0;
-    private String DynamicLevelString = null;
-    private boolean Equals9 = false;
-    public ZLevel(int Level)
+    public CoordUpdater()
     {
         //
-        DynamicLevelInt = Level;
     }
+
+    public String doCoordUpdate(int TLevel, int VLevel, int LLevel, int XLevel, int YLevel, int ZLevel)
+    {
+        TLevelString = String.valueOf(TLevel);
+        VLevelString = String.valueOf(VLevel);
+        LLevelString = String.valueOf(LLevel);
+        XLevelString = String.valueOf(XLevel);
+        YLevelString = String.valueOf(YLevel);
+        ZLevelString = String.valueOf(ZLevel);
+
+        FinalCoord = TLevelString + VLevelString + LLevelString + XLevelString + YLevelString + ZLevelString;
+        return FinalCoord;
+    }
+}
+
+class Printer
+{
+    private int TLevel = 0;
+    private int VLevel = 0;
+    private int LLevel = 0;
+    private int XLevel = 0;
+    private int YLevel = 0;
+    private int ZLevel = 0;
+    private String PrintOutput;
+    public CoordUpdater NextString = new CoordUpdater();
     
-    public int doLevelPlusPlus()
+    public Printer()
     {
         //
-        DynamicLevelInt++;
-        
-        return DynamicLevelInt;
     }
 
-    public int doZIntToStringToInt()
+    public String doPrint() throws IOException
     {
-        DynamicLevelString = String.valueOf(DynamicLevelInt);
-        DynamicLevelInt = Integer.parseInt(DynamicLevelString);
-        return DynamicLevelInt;
-    }
-
-    public boolean CheckFor9()
-    {
-        if (DynamicLevelInt > 9)
-        {
-            Equals9 = true;
+        BufferedWriter Writer = new BufferedWriter(new FileWriter("output.txt", true));
+        try
+        {  
+            Writer.append("{\n");
+            for (TLevel = 0; TLevel <= 9; TLevel++)
+            {
+                Writer.append("\t/* t = " + TLevel + " */\n\t{\n");
+                for (VLevel = 0; VLevel <=9; VLevel++)
+                {
+                    Writer.append("\t\t/* v = " + VLevel + " */\n\t\t{\n");
+                    for (LLevel = 0; LLevel <= 9; LLevel++)
+                    {
+                        Writer.append("\t\t\t/* l = " + LLevel + " */\n\t\t\t{\n");
+                        for (XLevel = 0; XLevel <= 9; XLevel++)
+                        {
+                            Writer.append("\t\t\t\t/* x = " + XLevel + " */\n\t\t\t\t{\n");
+                            for (YLevel = 0; YLevel <= 9; YLevel++)
+                            {
+                                Writer.append("\t\t\t\t\t/* y = " + YLevel + " */\n\t\t\t\t\t{\n");
+                                for (ZLevel = 0; ZLevel <= 9; ZLevel++)
+                                {
+                                    /* Asks for the value of CurrentString to be updated using doCoordUpdate method. */
+                                    String CurrentString = NextString.doCoordUpdate(TLevel, VLevel, LLevel, XLevel, YLevel, ZLevel);
+                                    Writer.append("\t\t\t\t\t\t/* z = " + ZLevel + " */ \n\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\"" + CurrentString + "\"\n");
+                                    if (ZLevel == 9)
+                                    {
+                                        Writer.append("\t\t\t\t\t\t}\n");
+                                    }
+                                    else
+                                    {
+                                        Writer.append("\t\t\t\t\t\t},\n");
+                                    }
+                                }
+                                if (YLevel == 9)
+                                {
+                                    Writer.append("\t\t\t\t\t}\n");
+                                }
+                                else
+                                {
+                                    Writer.append("\t\t\t\t\t},\n");
+                                }
+                            }
+                            if (XLevel == 9)
+                            {
+                                Writer.append("\t\t\t\t}\n");
+                            }
+                            else
+                            {
+                                Writer.append("\t\t\t\t},\n");
+                            }
+                        }
+                        if (LLevel == 9)
+                        {
+                            Writer.append("\t\t\t}\n");
+                        }
+                        else
+                        {
+                            Writer.append("\t\t\t},\n");
+                        }
+                    }
+                    if (VLevel == 9)
+                    {
+                    Writer.append("\t\t}\n");
+                    }
+                    else
+                    {
+                        Writer.append("\t\t},\n");
+                    }
+                }
+                if (TLevel == 9)
+                {
+                    Writer.append("\t}\n");
+                }
+                else
+                {
+                    Writer.append("\t},\n");
+                }
+            }
+        } catch (IOException ErrorReport) {
+            ErrorReport.printStackTrace();
+        } finally {
+            Writer.append("");
+            Writer.close();
         }
-        else if (DynamicLevelInt < 9)
-        {
-            Equals9 = false;
-        }
-        return Equals9;
-    }
-
-    public int SetTo0()
-    {
-        if (Equals9 == true)
-        {
-            DynamicLevelInt = 0;
-        }
-        return DynamicLevelInt;
+        return PrintOutput;
     }
 }
